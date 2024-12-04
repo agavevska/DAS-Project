@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to Macedonian Stock Exchange App</h1>
+</header>
+<main>
+
+    <ul>
+        <li th:each="event: ${events}">
+            <p th:text="${event.name}" th:value="${event.name}">
+            <span th:text="${event.description} + '  ' + ${event.popularityScore}"></span>
+        </li>
+    </ul>
+
+
+</main>
+</body>
+</html>
