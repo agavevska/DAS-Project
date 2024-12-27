@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import ta
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 data=pd.read_csv("companies.csv")
 
@@ -23,6 +25,38 @@ def hma(data, window):
     wma_full = weighted_moving_average(data, window)
     diff = 2 * wma_half - wma_full
     return weighted_moving_average(diff, sqrt_window)
+
+
+def visualization(company_data):
+    plt.figure(figsize=(12, 6))
+
+# Линеарен графикон за цените
+    plt.plot(company_data.index, company_data['Цена на последна трансакција'], label='Цена на последна трансакција', color='blue')
+
+# Обележување на сигналите за купување (зелена точка)
+    buy_signals = company_data[company_data['final_signal'] == 'buy']
+    plt.scatter(buy_signals.index, buy_signals['Цена на последна трансакција'], marker='^', color='green', label='Сигнал за купување', alpha=1)
+
+# Обележување на сигналите за продавање (црвена точка)
+    sell_signals = company_data[company_data['final_signal'] == 'sell']
+    plt.scatter(sell_signals.index, sell_signals['Цена на последна трансакција'], marker='v', color='red', label='Сигнал за продавање', alpha=1)
+
+# Додавање на наслов и ознаки
+    plt.title('Визуализација на сигнали за купување и продавање на ' + company_data['Име'].iloc[0])
+    plt.xlabel('Дата')
+    plt.ylabel('Цена на последна трансакција')
+
+# Форматирање на датите на оската X
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    plt.gca().xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.MO))
+    plt.gcf().autofmt_xdate()
+
+# Додавање легенда
+    plt.legend()
+
+# Поставување на графиконот
+    plt.tight_layout()
+    plt.show()
 
 data['Датум'] = pd.to_datetime(data['Датум'], format='%d.%m.%Y')  # Convert to datetime
 data = data.sort_values('Датум')  # Sort by date
@@ -119,5 +153,8 @@ for company in data['Име'].unique():
         ['buy', 'sell'],
         default='hold'
     )
+
+    visualization(company_data)
+
 
 
