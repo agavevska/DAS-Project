@@ -90,3 +90,12 @@ for company in data['Име'].unique():
     company_data['ROC_1_month'] = ta.momentum.ROCIndicator(close=company_data['Цена на последна трансакција'], window=30).roc()
 
 
+    company_data['SMA_signal'] = np.where(company_data['SMA_1_day'] > company_data['SMA_1_week'], 'buy', 'sell')
+    company_data['EMA_signal'] = np.where(company_data['EMA_1_day'] > company_data['Цена на последна трансакција'], 'buy', 'sell')
+    company_data['WMA_signal'] = np.where(company_data['WMA_1_day'] > company_data['Цена на последна трансакција'], 'buy', 'sell')
+    company_data['TEMA_signal'] = np.where(company_data['TEMA_1_day'] > company_data['Цена на последна трансакција'], 'buy', 'sell')
+    company_data['HMA_signal'] = np.where(company_data['HMA_1_day'] > company_data['Цена на последна трансакција'], 'buy', 'sell')
+    company_data['RSI_signal'] = np.where(company_data['RSI_1_day'] < 30, 'buy', 'sell')
+    company_data['stoch_signal'] = np.where(company_data['stoch_1_day'] < 20, 'buy', 'sell')
+    company_data['macd_signal'] = np.where(company_data['macd'] > company_data['macd_signal'], 'buy', 'sell')
+    company_data['CCI_signal'] = np.where(company_data['CCI_1_day'] > 100, 'buy', 'sell')
