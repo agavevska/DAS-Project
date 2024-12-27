@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import ta
 
 data=pd.read_csv("companies.csv")
 
@@ -61,5 +62,31 @@ for company in data['Име'].unique():
     company_data['HMA_1_day'] = hma(company_data['Цена на последна трансакција'], 1)
     company_data['HMA_1_week'] = hma(company_data['Цена на последна трансакција'], 7)
     company_data['HMA_1_month'] = hma(company_data['Цена на последна трансакција'], 30)
+
+
+
+
+    # Relative Strength Index (RSI)
+    company_data['RSI_1_day'] = ta.momentum.RSIIndicator(company_data['Цена на последна трансакција'], window=1).rsi()
+    company_data['RSI_1_week'] = ta.momentum.RSIIndicator(company_data['Цена на последна трансакција'], window=7).rsi()
+    company_data['RSI_1_month'] = ta.momentum.RSIIndicator(company_data['Цена на последна трансакција'], window=30).rsi()
+
+    # Stochastic Oscillator
+    company_data['stoch_1_day'] = ta.momentum.StochasticOscillator(company_data['Мак.'], company_data['Мин.'], company_data['Цена на последна трансакција'], window=1, smooth_window=3).stoch()
+    company_data['stoch_1_week'] = ta.momentum.StochasticOscillator(company_data['Мак.'], company_data['Мин.'], company_data['Цена на последна трансакција'], window=7, smooth_window=3).stoch()
+    company_data['stoch_1_month'] = ta.momentum.StochasticOscillator(company_data['Мак.'], company_data['Мин.'], company_data['Цена на последна трансакција'], window=30, smooth_window=3).stoch()
+
+    # MACD (Moving Average Convergence Divergence)
+    company_data['macd'] = ta.trend.MACD(company_data['Цена на последна трансакција']).macd()
+    company_data['macd_signal'] = ta.trend.MACD(company_data['Цена на последна трансакција']).macd_signal()
+
+    # Commodity Channel Index (CCI)
+    company_data['CCI_1_day'] = ta.trend.CCIIndicator(company_data['Мак.'], company_data['Мин.'], company_data['Цена на последна трансакција'], window=1).cci()
+    company_data['CCI_1_week'] = ta.trend.CCIIndicator(company_data['Мак.'], company_data['Мин.'], company_data['Цена на последна трансакција'], window=7).cci()
+    company_data['CCI_1_month'] = ta.trend.CCIIndicator(company_data['Мак.'], company_data['Мин.'], company_data['Цена на последна трансакција'], window=30).cci()
+
+    company_data['ROC_1_day'] = ta.momentum.ROCIndicator(close=company_data['Цена на последна трансакција'], window=1).roc()
+    company_data['ROC_1_week'] = ta.momentum.ROCIndicator(close=company_data['Цена на последна трансакција'], window=7).roc()
+    company_data['ROC_1_month'] = ta.momentum.ROCIndicator(close=company_data['Цена на последна трансакција'], window=30).roc()
 
 
