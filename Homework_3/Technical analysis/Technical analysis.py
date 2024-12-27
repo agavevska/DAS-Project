@@ -99,3 +99,25 @@ for company in data['Име'].unique():
     company_data['stoch_signal'] = np.where(company_data['stoch_1_day'] < 20, 'buy', 'sell')
     company_data['macd_signal'] = np.where(company_data['macd'] > company_data['macd_signal'], 'buy', 'sell')
     company_data['CCI_signal'] = np.where(company_data['CCI_1_day'] > 100, 'buy', 'sell')
+
+    # Генерирање на финален сигнал врз основа на комбинација од сите индикатори
+    company_data['final_signal'] = np.select(
+        [
+            (company_data['SMA_signal'] == 'buy') | (company_data['EMA_signal'] == 'buy') | (
+                        company_data['WMA_signal'] == 'buy') |
+            (company_data['TEMA_signal'] == 'buy') | (company_data['HMA_signal'] == 'buy') | (
+                        company_data['RSI_signal'] == 'buy') |
+            (company_data['stoch_signal'] == 'buy') | (company_data['macd_signal'] == 'buy') | (
+                        company_data['CCI_signal'] == 'buy'),
+            (company_data['SMA_signal'] == 'sell') | (company_data['EMA_signal'] == 'sell') | (
+                        company_data['WMA_signal'] == 'sell') |
+            (company_data['TEMA_signal'] == 'sell') | (company_data['HMA_signal'] == 'sell') | (
+                        company_data['RSI_signal'] == 'sell') |
+            (company_data['stoch_signal'] == 'sell') | (company_data['macd_signal'] == 'sell') | (
+                        company_data['CCI_signal'] == 'sell')
+        ],
+        ['buy', 'sell'],
+        default='hold'
+    )
+
+
