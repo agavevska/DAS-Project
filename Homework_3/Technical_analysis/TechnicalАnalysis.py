@@ -19,9 +19,7 @@ if len(sys.argv) < 2:
 company_name = sys.argv[1]
 
 
-company_name = sys.argv[1]
-
-data=pd.read_csv("C:/Users/User/PycharmProjects/DAS-Project/Homework_3/Technical_analysis/companies.csv")
+data=pd.read_csv("C:/Users/User/PycharmProjects/DAS-Project/Homework_1/companies.csv")
 
 
 
