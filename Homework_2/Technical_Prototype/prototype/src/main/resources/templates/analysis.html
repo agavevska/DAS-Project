@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-around;
+            width: 1497px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 24px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        #decs {
+            width: 1550px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+<nav>
+    <h1>Welcome to Macedonian Stock Exchange App</h1>
+    <a href="/events/listEvents">About as</a>
+    <a href="/events/analysis">Analysis</a>
+    <a href="/events/login">Login</a>
+</nav>
+
+
+<p id="decs">By choosing any name from the list a graph will be generated. It displays the price of the last transaction
+    over time.
+    This helps investors or analysts make their decisions based on historical data and technical analysis indicators.
+</p>
+
+<h4>Green arrows indicate the buying moments, while red arrows indicate the selling moments.</h4>
+<select id="companySelect">
+    <!--        <option>Company name</option>-->
+    <option th:each="company : ${companies}" th:text="${company.name}" th:value="${company.name}">Choose a company
+        name
+    </option>
+</select>
+
+<div id="chartContainer">
+    <!-- Графикот ќе се прикаже тука -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#companySelect').change(function () {
+            var companyName = $(this).val(); // Земете го името на избраната компанија
+            console.log(companyName);
+            if (companyName) {
+                $.ajax({
+                    url: '/chart/generate-chart',  // Backend endpoint
+                    type: 'POST',
+                    contentType: 'application/json', // JSON формат
+                    data: JSON.stringify({companyName: companyName}), // Прати JSON
+                    success: function (response) {
+
+                        let base64Image = response.chartData;
+
+                        // Пробајте да го најдете почетокот на Base64 низата
+                        const base64Prefix = "data:image/png;base64,";
+
+                        // Ако одговорот содржи нешто пред Base64 кодот, изолирате само делот по Base64 префиксот
+                        if (base64Image.includes(base64Prefix)) {
+                            base64Image = base64Image.split(base64Prefix)[1];  // Отстранете го делот пред Base64 кодот
+                        }
+                        base64Image = base64Image.replace(/\n/g, '').replace(/\r/g, '');
+
+                        $('#chartContainer').html('<img src="data:image/png;base64,' + base64Image + '" />');
+                    },
+                    error: function (error) {
+                        console.error("Грешка при генерирање на графикот", error);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<nav>
+    <h1>Welcome to Macedonian Stock Exchange App</h1>
+    <a href="/events/listEvents">About as</a>
+    <a href="/events/analysis">Analysis</a>
+    <a href="/events/login">Login</a>
+</nav>
+
+</body>
+</html>

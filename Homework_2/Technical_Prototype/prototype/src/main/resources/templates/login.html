@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Welcome</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to Macedonian Stock Exchange App</h1>
+</header>
+<main>
+
+    <form action="/events/listEvents" method="GET">
+        <div>
+    <span>
+      <p>Username:</p>
+      <input name="username" type="text">
+    </span>
+            <span>
+      <p>Password:</p>
+      <input name="pass" type="password">
+    </span>
+
+            <input type="submit" value="Login">
+
+        </div>
+    </form>
+
+    <form action="/events" method="GET">
+        <p>Don't have an account?</p>
+        <input type="submit" value="Register">
+    </form>
+</main>
+</body>
+</html>

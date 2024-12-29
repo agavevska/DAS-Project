@@ -1,12 +1,13 @@
-import pandas as pd
-import numpy as np
-import ta
-import matplotlib.dates as mdates
-import sys
-import matplotlib.pyplot as plt
 import base64
+import sys
 from io import BytesIO
-import io
+
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import ta
+
 sys.stdout.reconfigure(encoding='utf-8')
 import warnings
 
@@ -18,8 +19,7 @@ if len(sys.argv) < 2:
 
 company_name = sys.argv[1]
 
-
-data=pd.read_csv("C:/Users/User/PycharmProjects/DAS-Project/Homework_1/companies.csv")
+data = pd.read_csv("C:/Users/User/DAS-Project/Homework_1/companies.csv")
 
 
 
