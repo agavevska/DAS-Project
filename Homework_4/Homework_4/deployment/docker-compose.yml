@@ -1,0 +1,28 @@
+services:
+  orchestrator:
+    build:
+      context: ../orchestrator
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+
+  technical_analysis_service:
+    build:
+      context: ../services/technical_analysis_service
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+
+  fundamental_analysis_service:
+    build:
+      context: ../services/fundamental_analysis_service
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5000"
+
+  lstm_analysis_service:
+    build:
+      context: ../services/lstm_analysis_service
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5000"
